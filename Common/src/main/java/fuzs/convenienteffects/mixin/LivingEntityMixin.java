@@ -1,5 +1,6 @@
 package fuzs.convenienteffects.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ServerConfig;
 import net.minecraft.world.entity.Entity;
@@ -8,8 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
@@ -18,13 +17,10 @@ abstract class LivingEntityMixin extends Entity {
         super(entityType, level);
     }
 
-    @ModifyVariable(
-            method = "travel",
-            at = @At(value = "STORE", ordinal = 0),
-            slice = @Slice(from = @At(value = "INVOKE", target = "Ljava/lang/Math;min(DD)D", ordinal = 0))
-    )
-    public double travel(double gravity) {
-        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).slowFallingQuickDescent) return gravity;
-        return this.isDescending() ? Math.max(this.getGravity(), 0.01) : gravity;
+    @ModifyReturnValue(method = "getEffectiveGravity", at = @At("RETURN"))
+    protected double getEffectiveGravity(double effectiveGravity) {
+        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).slowFallingQuickDescent) return effectiveGravity;
+        return effectiveGravity != this.getGravity() && this.isDescending() ? Math.max(this.getGravity(), 0.01) :
+                effectiveGravity;
     }
 }
