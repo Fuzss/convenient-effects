@@ -13,6 +13,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,7 +21,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FogType;
-import org.jetbrains.annotations.Nullable;
 
 public class VanillaEffectsClientHandler {
 
@@ -37,8 +37,8 @@ public class VanillaEffectsClientHandler {
 
     public static void onRenderFog$2(GameRenderer gameRenderer, Camera camera, float partialTicks, FogRenderer.FogMode fogMode, FogType fogType, MutableFloat fogStart, MutableFloat fogEnd, MutableValue<FogShape> fogShape) {
         if (!ConvenientEffects.CONFIG.get(ClientConfig.class).betterFireResistanceVision) return;
-        if (fogType == FogType.LAVA && camera.getEntity() instanceof LocalPlayer player && applyFireResistanceEffects(
-                player)) {
+        if (fogType == FogType.LAVA && camera.getEntity() instanceof LocalPlayer player &&
+                applyFireResistanceEffects(player)) {
             MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.FIRE_RESISTANCE);
             float fogDistance;
             // infinite duration returns -1, so we cannot handle that below
@@ -53,7 +53,7 @@ public class VanillaEffectsClientHandler {
         }
     }
 
-    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, @Nullable BlockState blockState) {
+    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, BlockState blockState) {
         if (!ConvenientEffects.CONFIG.get(ClientConfig.class).betterFireResistanceVision) return EventResult.PASS;
         if (blockState == Blocks.FIRE.defaultBlockState() && applyFireResistanceEffects(player)) {
             return EventResult.INTERRUPT;
