@@ -1,0 +1,3 @@
+accessWidener   v2  named
+accessible  method  net/minecraft/client/renderer/LevelRenderer addParticleInternal (Lnet/minecraft/core/particles/ParticleOptions;ZZDDDDDD)Lnet/minecraft/client/particle/Particle;
+accessible  method  net/minecraft/client/particle/Particle  setAlpha    (F)V
