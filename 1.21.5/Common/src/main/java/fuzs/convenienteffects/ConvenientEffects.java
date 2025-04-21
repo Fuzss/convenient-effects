@@ -21,8 +21,10 @@ public class ConvenientEffects implements ModConstructor {
     public static final String MOD_NAME = "Convenient Effects";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
-    public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID).client(ClientConfig.class).common(
-            CommonConfig.class).server(ServerConfig.class);
+    public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID)
+            .client(ClientConfig.class)
+            .common(CommonConfig.class)
+            .server(ServerConfig.class);
 
     @Override
     public void onConstructMod() {
@@ -38,10 +40,11 @@ public class ConvenientEffects implements ModConstructor {
     public void onCommonSetup() {
         if (CONFIG.get(CommonConfig.class).jumpBoostIncreasesStepHeight) {
             // this will enable stepping up a single block at an amplifier of at least II (the default player step height is 0.6)
-            MobEffects.JUMP.value().addAttributeModifier(Attributes.STEP_HEIGHT,
-                    ResourceLocation.withDefaultNamespace("effect.jump_boost"), 0.5,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_BASE
-            );
+            MobEffects.JUMP_BOOST.value()
+                    .addAttributeModifier(Attributes.STEP_HEIGHT,
+                            ResourceLocation.withDefaultNamespace("effect.jump_boost"),
+                            0.5,
+                            AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
         }
     }
 
