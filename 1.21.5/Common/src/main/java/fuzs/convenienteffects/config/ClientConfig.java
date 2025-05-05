@@ -29,8 +29,7 @@ public class ClientConfig implements ConfigCore {
         ALL
     }
 
-    public static EffectParticleStatus getParticleStatus(boolean isCameraEntity) {
-        Minecraft minecraft = Minecraft.getInstance();
+    public static EffectParticleStatus getParticleStatus(Minecraft minecraft, boolean isCameraEntity) {
         if (isCameraEntity && minecraft.options.getCameraType().isFirstPerson()) {
             return ConvenientEffects.CONFIG.get(ClientConfig.class).firstPersonEffectParticles;
         } else {
