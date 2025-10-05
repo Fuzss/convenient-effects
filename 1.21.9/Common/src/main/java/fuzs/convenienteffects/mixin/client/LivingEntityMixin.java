@@ -26,18 +26,15 @@ abstract class LivingEntityMixin extends Entity {
         super(entityType, level);
     }
 
-    @Inject(
-            method = "tickEffects", at = @At(
-            value = "FIELD",
-            target = "Lnet/minecraft/world/entity/LivingEntity;DATA_EFFECT_PARTICLES:Lnet/minecraft/network/syncher/EntityDataAccessor;"
-    ), cancellable = true
-    )
+    @Inject(method = "tickEffects",
+            at = @At(value = "FIELD",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;DATA_EFFECT_PARTICLES:Lnet/minecraft/network/syncher/EntityDataAccessor;"),
+            cancellable = true)
     protected void tickEffects(CallbackInfo callback) {
         // this mixin is only added on the client,
         // but still add a check to be sure since we access client-only classes directly in the subsequent methods
-        if (this.level().isClientSide && EffectParticleRenderHelper.tickEffectParticles(this,
-                this.entityData.get(DATA_EFFECT_PARTICLES)
-        )) {
+        if (this.level().isClientSide() && EffectParticleRenderHelper.tickEffectParticles(this,
+                this.entityData.get(DATA_EFFECT_PARTICLES))) {
             callback.cancel();
         }
     }
