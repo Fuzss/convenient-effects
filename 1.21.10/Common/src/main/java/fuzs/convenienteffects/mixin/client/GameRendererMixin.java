@@ -17,9 +17,12 @@ abstract class GameRendererMixin {
 
     @Inject(method = "getNightVisionScale", at = @At("HEAD"), cancellable = true)
     private static void getNightVisionScale(LivingEntity livingEntity, float partialTick, CallbackInfoReturnable<Float> callback) {
-        if (!ConvenientEffects.CONFIG.get(ClientConfig.class).noNightVisionFlashing) return;
+        if (!ConvenientEffects.CONFIG.get(ClientConfig.class).noNightVisionFlashing) {
+            return;
+        }
+
         MobEffectInstance mobEffect = livingEntity.getEffect(MobEffects.NIGHT_VISION);
-        if (!mobEffect.isInfiniteDuration()) {
+        if (mobEffect != null && !mobEffect.isInfiniteDuration()) {
             float fadeTime = ConvenientEffects.CONFIG.get(ClientConfig.class).effectFadeTime * 20.0F;
             float nightVisionScale = Mth.clamp((mobEffect.getDuration() - partialTick) / fadeTime, 0.0F, 1.0F);
             callback.setReturnValue(nightVisionScale);
