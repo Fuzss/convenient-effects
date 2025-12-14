@@ -19,7 +19,10 @@ abstract class LivingEntityMixin extends Entity {
 
     @ModifyReturnValue(method = "getEffectiveGravity", at = @At("RETURN"))
     protected double getEffectiveGravity(double effectiveGravity) {
-        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).slowFallingQuickDescent) return effectiveGravity;
+        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).slowFallingQuickDescent) {
+            return effectiveGravity;
+        }
+
         return effectiveGravity != this.getGravity() && this.isDescending() ? Math.max(this.getGravity(), 0.01) :
                 effectiveGravity;
     }

@@ -1,0 +1,61 @@
+{
+    "mod": {
+        "id": "convenienteffects",
+        "group": "fuzs.convenienteffects",
+        "name": "Convenient Effects",
+        "version": "21.11.0",
+        "authors": [
+            "Fuzs"
+        ],
+        "description": "Better potion effects, because even potions deserve a little glow-up with some polish and finesse.",
+        "license": "MPL-2.0"
+    },
+    "dependencies": [
+        {
+            "name": "fabricapi",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "forgeconfigapiport",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "puzzleslib",
+            "type": "required",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "name": "curseforge",
+            "slug": "convenient-effects",
+            "id": "1259240"
+        },
+        {
+            "name": "github",
+            "slug": "convenienteffects"
+        },
+        {
+            "name": "modrinth",
+            "slug": "convenient-effects",
+            "id": "BEVhblTh"
+        }
+    ],
+    "environments": {
+        "client": "required",
+        "server": "required"
+    },
+    "platforms": [
+        "fabric",
+        "neoforge"
+    ]
+}

@@ -5,9 +5,10 @@ plugins {
 dependencies {
     modCompileOnlyApi(libs.puzzleslib.common)
 }
+
 multiloader {
     mixins {
         mixin("LivingEntityMixin")
-        clientMixin("client.GameRendererMixin", "client.LivingEntityMixin")
+        clientMixin("GameRendererMixin", "LivingEntityClientMixin")
     }
 }
