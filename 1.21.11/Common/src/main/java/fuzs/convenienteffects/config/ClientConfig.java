@@ -10,8 +10,7 @@ public class ClientConfig implements ConfigCore {
     static final String DESCRIPTION_DISCREET_EFFECT_PARTICLES = "The discreet setting will greatly reduce the amount of particles and makes them transparent, just like vanilla particles from beacon effects.";
 
     @Config(description = "Time in seconds before an effect is about to end when any visuals begin to fade back to normal.")
-    @Config.IntRange(min = 1, max = 20)
-    public int effectFadeTime = 3;
+    @Config.IntRange(min = 1, max = 20) public int effectFadeTime = 3;
     @Config(description = "Fire resistance provides better vision in lava, no longer shows the flame overlay.")
     public boolean betterFireResistanceVision = true;
     @Config(description = "Night vision fades away when ending instead of flashing.")
