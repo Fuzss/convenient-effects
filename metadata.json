@@ -3,7 +3,7 @@
         "id": "convenienteffects",
         "group": "fuzs.convenienteffects",
         "name": "Convenient Effects",
-        "version": "21.11.0",
+        "version": "21.11.1",
         "authors": [
             "Fuzs"
         ],
@@ -36,13 +36,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "convenienteffects"
-        },
-        {
             "name": "curseforge",
             "slug": "convenient-effects",
             "id": "1259240"
+        },
+        {
+            "name": "github",
+            "slug": "convenienteffects"
         },
         {
             "name": "modrinth",

@@ -11,9 +11,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -62,11 +65,20 @@ public class VanillaEffectsClientHandler {
     }
 
     public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, BlockState blockState, MaterialSet materialSet) {
-        if (!ConvenientEffects.CONFIG.get(ClientConfig.class).betterFireResistanceVision) {
+        double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
+        if (flameOverlayHeight >= 1.0) {
             return EventResult.PASS;
         }
 
-        if (blockState == Blocks.FIRE.defaultBlockState() && applyFireResistanceEffects(player)) {
+        if (blockState == Blocks.FIRE.defaultBlockState()) {
+            if (flameOverlayHeight > 0.0) {
+                TextureAtlasSprite textureAtlasSprite = materialSet.get(ModelBakery.FIRE_1);
+                poseStack.pushPose();
+                poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
+                ScreenEffectRenderer.renderFire(poseStack, bufferSource, textureAtlasSprite);
+                poseStack.popPose();
+            }
+
             return EventResult.INTERRUPT;
         } else {
             return EventResult.PASS;
