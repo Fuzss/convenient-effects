@@ -12,8 +12,11 @@ public class ClientConfig implements ConfigCore {
     @Config(description = "Time in seconds before an effect is about to end when any visuals begin to fade back to normal.")
     @Config.IntRange(min = 1, max = 20)
     public int effectFadeTime = 3;
-    @Config(description = "Fire resistance provides better vision in lava, no longer shows the flame overlay.")
+    @Config(description = "Fire resistance provides better vision in lava and a graceful fading effect when the effect ends.")
     public boolean betterFireResistanceVision = true;
+    @Config(description = "The height of the flame overlay with one being the vanilla height, and zero fully hiding the overlay.")
+    @Config.DoubleRange(min = 0.0, max = 1.0)
+    public double flameOverlayHeight = 0.4;
     @Config(description = "Night vision fades away when ending instead of flashing.")
     public boolean noNightVisionFlashing = true;
     @Config(description = {DESCRIPTION_EFFECT_PARTICLES, DESCRIPTION_DISCREET_EFFECT_PARTICLES})

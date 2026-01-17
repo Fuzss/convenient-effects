@@ -10,9 +10,11 @@ import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.MutableFloat;
 import fuzs.puzzleslib.api.event.v1.data.MutableValue;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,8 +28,8 @@ public class VanillaEffectsClientHandler {
 
     public static void onRenderFog$1(GameRenderer gameRenderer, Camera camera, float partialTicks, FogRenderer.FogMode fogMode, FogType fogType, MutableFloat fogStart, MutableFloat fogEnd, MutableValue<FogShape> fogShape) {
         if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) return;
-        if (fogType != FogType.LAVA && fogType != FogType.POWDER_SNOW &&
-                camera.getEntity() instanceof LocalPlayer player && player.hasEffect(MobEffects.BLINDNESS)) {
+        if (fogType != FogType.LAVA && fogType != FogType.POWDER_SNOW
+                && camera.getEntity() instanceof LocalPlayer player && player.hasEffect(MobEffects.BLINDNESS)) {
             MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.BLINDNESS);
             float multiplier = VanillaEffectsHandler.getVisibilityMultiplier(mobEffectInstance.getAmplifier());
             fogStart.mapFloat(value -> value * multiplier);
@@ -54,8 +56,19 @@ public class VanillaEffectsClientHandler {
     }
 
     public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, @Nullable BlockState blockState) {
-        if (!ConvenientEffects.CONFIG.get(ClientConfig.class).betterFireResistanceVision) return EventResult.PASS;
-        if (blockState == Blocks.FIRE.defaultBlockState() && applyFireResistanceEffects(player)) {
+        double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
+        if (flameOverlayHeight >= 1.0) {
+            return EventResult.PASS;
+        }
+
+        if (blockState == Blocks.FIRE.defaultBlockState()) {
+            if (flameOverlayHeight > 0.0) {
+                poseStack.pushPose();
+                poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
+                ScreenEffectRenderer.renderFire(Minecraft.getInstance(), poseStack);
+                poseStack.popPose();
+            }
+
             return EventResult.INTERRUPT;
         } else {
             return EventResult.PASS;
