@@ -22,9 +22,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FogType;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 
 public class VanillaEffectsClientHandler {
+    private static final MutableBoolean IS_RENDERING_FIRE = new MutableBoolean();
 
     public static void onRenderFog$1(GameRenderer gameRenderer, Camera camera, float partialTicks, FogRenderer.FogMode fogMode, FogType fogType, MutableFloat fogStart, MutableFloat fogEnd, MutableValue<FogShape> fogShape) {
         if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) return;
@@ -56,6 +58,10 @@ public class VanillaEffectsClientHandler {
     }
 
     public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, @Nullable BlockState blockState) {
+        if (IS_RENDERING_FIRE.isTrue()) {
+            return EventResult.PASS;
+        }
+
         double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
         if (flameOverlayHeight >= 1.0) {
             return EventResult.PASS;
@@ -65,7 +71,9 @@ public class VanillaEffectsClientHandler {
             if (flameOverlayHeight > 0.0) {
                 poseStack.pushPose();
                 poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
+                IS_RENDERING_FIRE.setTrue();
                 ScreenEffectRenderer.renderFire(Minecraft.getInstance(), poseStack);
+                IS_RENDERING_FIRE.setFalse();
                 poseStack.popPose();
             }
 
