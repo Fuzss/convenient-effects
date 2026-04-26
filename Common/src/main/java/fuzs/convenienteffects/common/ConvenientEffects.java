@@ -1,15 +1,14 @@
-package fuzs.convenienteffects;
+package fuzs.convenienteffects.common;
 
-import fuzs.convenienteffects.config.ClientConfig;
-import fuzs.convenienteffects.config.CommonConfig;
-import fuzs.convenienteffects.config.ServerConfig;
-import fuzs.convenienteffects.handler.VanillaEffectsHandler;
+import fuzs.convenienteffects.common.config.ClientConfig;
+import fuzs.convenienteffects.common.config.CommonConfig;
+import fuzs.convenienteffects.common.config.ServerConfig;
+import fuzs.convenienteffects.common.handler.VanillaEffectsHandler;
 import fuzs.puzzleslib.common.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import net.minecraft.resources.Identifier;
 import fuzs.puzzleslib.common.api.event.v1.entity.EntityTickEvents;
 import fuzs.puzzleslib.common.api.event.v1.entity.living.CalculateLivingVisibilityCallback;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;

@@ -1,7 +1,7 @@
-package fuzs.convenienteffects.client.util;
+package fuzs.convenienteffects.common.client.util;
 
-import fuzs.convenienteffects.ConvenientEffects;
-import fuzs.convenienteffects.config.ClientConfig;
+import fuzs.convenienteffects.common.ConvenientEffects;
+import fuzs.convenienteffects.common.config.ClientConfig;
 import fuzs.puzzleslib.common.api.client.util.v1.ClientParticleHelper;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;

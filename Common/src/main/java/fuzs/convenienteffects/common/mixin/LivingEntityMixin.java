@@ -1,8 +1,8 @@
-package fuzs.convenienteffects.mixin;
+package fuzs.convenienteffects.common.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import fuzs.convenienteffects.ConvenientEffects;
-import fuzs.convenienteffects.config.ServerConfig;
+import fuzs.convenienteffects.common.ConvenientEffects;
+import fuzs.convenienteffects.common.config.ServerConfig;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

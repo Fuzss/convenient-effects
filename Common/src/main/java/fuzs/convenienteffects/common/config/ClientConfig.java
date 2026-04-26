@@ -1,6 +1,6 @@
-package fuzs.convenienteffects.config;
+package fuzs.convenienteffects.common.config;
 
-import fuzs.convenienteffects.ConvenientEffects;
+import fuzs.convenienteffects.common.ConvenientEffects;
 import fuzs.puzzleslib.common.api.config.v3.Config;
 import fuzs.puzzleslib.common.api.config.v3.ConfigCore;
 import net.minecraft.client.Minecraft;

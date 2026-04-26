@@ -1,6 +1,6 @@
 package fuzs.convenienteffects.fabric;
 
-import fuzs.convenienteffects.ConvenientEffects;
+import fuzs.convenienteffects.common.ConvenientEffects;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import net.fabricmc.api.ModInitializer;
 

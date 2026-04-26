@@ -1,6 +1,6 @@
-package fuzs.convenienteffects.mixin.client;
+package fuzs.convenienteffects.common.mixin.client;
 
-import fuzs.convenienteffects.client.util.EffectParticleRenderHelper;
+import fuzs.convenienteffects.common.client.util.EffectParticleRenderHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;

@@ -1,7 +1,7 @@
-package fuzs.convenienteffects.mixin.client;
+package fuzs.convenienteffects.common.mixin.client;
 
-import fuzs.convenienteffects.ConvenientEffects;
-import fuzs.convenienteffects.config.ClientConfig;
+import fuzs.convenienteffects.common.ConvenientEffects;
+import fuzs.convenienteffects.common.config.ClientConfig;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;

@@ -1,10 +1,10 @@
-package fuzs.convenienteffects.client.handler;
+package fuzs.convenienteffects.common.client.handler;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import fuzs.convenienteffects.ConvenientEffects;
-import fuzs.convenienteffects.config.ClientConfig;
-import fuzs.convenienteffects.config.ServerConfig;
-import fuzs.convenienteffects.handler.VanillaEffectsHandler;
+import fuzs.convenienteffects.common.ConvenientEffects;
+import fuzs.convenienteffects.common.config.ClientConfig;
+import fuzs.convenienteffects.common.config.ServerConfig;
+import fuzs.convenienteffects.common.handler.VanillaEffectsHandler;
 import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;

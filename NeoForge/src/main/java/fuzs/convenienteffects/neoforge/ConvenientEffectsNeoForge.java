@@ -1,6 +1,6 @@
 package fuzs.convenienteffects.neoforge;
 
-import fuzs.convenienteffects.ConvenientEffects;
+import fuzs.convenienteffects.common.ConvenientEffects;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import net.neoforged.fml.common.Mod;
 

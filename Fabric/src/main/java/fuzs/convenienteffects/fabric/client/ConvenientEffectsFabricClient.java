@@ -1,7 +1,7 @@
 package fuzs.convenienteffects.fabric.client;
 
-import fuzs.convenienteffects.ConvenientEffects;
-import fuzs.convenienteffects.client.ConvenientEffectsClient;
+import fuzs.convenienteffects.common.ConvenientEffects;
+import fuzs.convenienteffects.common.client.ConvenientEffectsClient;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import net.fabricmc.api.ClientModInitializer;
 
