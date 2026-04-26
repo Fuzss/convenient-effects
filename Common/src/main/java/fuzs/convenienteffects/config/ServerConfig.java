@@ -1,7 +1,7 @@
 package fuzs.convenienteffects.config;
 
-import fuzs.puzzleslib.api.config.v3.Config;
-import fuzs.puzzleslib.api.config.v3.ConfigCore;
+import fuzs.puzzleslib.common.api.config.v3.Config;
+import fuzs.puzzleslib.common.api.config.v3.ConfigCore;
 
 public class ServerConfig implements ConfigCore {
     @Config(description = "Blindness effect is affected by potion level and affects detection range of mobs.")

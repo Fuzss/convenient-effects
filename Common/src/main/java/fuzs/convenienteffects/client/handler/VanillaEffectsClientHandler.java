@@ -5,18 +5,19 @@ import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ClientConfig;
 import fuzs.convenienteffects.config.ServerConfig;
 import fuzs.convenienteffects.handler.VanillaEffectsHandler;
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -28,7 +29,12 @@ import org.jspecify.annotations.Nullable;
 
 public class VanillaEffectsClientHandler {
 
-    public static void onSetupBlindnessFog(Camera camera, float partialTick, @Nullable FogEnvironment fogEnvironment, FogType fogType, FogData fogData) {
+    public static void onSetupFog(Camera camera, float partialTick, @Nullable FogEnvironment fogEnvironment, FogType fogType, FogData fogData) {
+        onSetupBlindnessFog(camera, fogType, fogData);
+        onSetupFireResistanceFog(camera, partialTick, fogType, fogData);
+    }
+
+    private static void onSetupBlindnessFog(Camera camera, FogType fogType, FogData fogData) {
         if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) {
             return;
         }
@@ -42,7 +48,11 @@ public class VanillaEffectsClientHandler {
         }
     }
 
-    public static void onSetupFireResistanceFog(Camera camera, float partialTick, @Nullable FogEnvironment fogEnvironment, FogType fogType, FogData fogData) {
+    /**
+     * Values for {@code renderDistanceInChunks} and {@code renderDistanceInBlocks} are copied from
+     * {@link net.minecraft.client.renderer.fog.FogRenderer#setupFog(Camera, int, DeltaTracker, float, ClientLevel)}.
+     */
+    private static void onSetupFireResistanceFog(Camera camera, float partialTick, FogType fogType, FogData fogData) {
         if (!ConvenientEffects.CONFIG.get(ClientConfig.class).betterFireResistanceVision) {
             return;
         }
@@ -58,13 +68,15 @@ public class VanillaEffectsClientHandler {
                 float effectFadeTime = ConvenientEffects.CONFIG.get(ClientConfig.class).effectFadeTime * 20.0F;
                 fogDistance = Mth.clamp((mobEffectInstance.getDuration() - partialTick) / effectFadeTime, 0.0F, 1.0F);
             }
-            GameRenderer gameRenderer = Minecraft.getInstance().gameRenderer;
+
+            int renderDistanceInChunks = Minecraft.getInstance().options.getEffectiveRenderDistance();
+            float renderDistanceInBlocks = renderDistanceInChunks * 16;
             fogData.environmentalStart = Mth.lerp(fogDistance, 0.25F, -4.0F);
-            fogData.environmentalEnd = Mth.lerp(fogDistance, 1.0F, gameRenderer.getRenderDistance() * 0.25F);
+            fogData.environmentalEnd = Mth.lerp(fogDistance, 1.0F, renderDistanceInBlocks * 0.25F);
         }
     }
 
-    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, BlockState blockState, MaterialSet materialSet) {
+    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, BlockState blockState, SpriteGetter sprites) {
         double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
         if (flameOverlayHeight >= 1.0) {
             return EventResult.PASS;
@@ -72,7 +84,7 @@ public class VanillaEffectsClientHandler {
 
         if (blockState == Blocks.FIRE.defaultBlockState()) {
             if (flameOverlayHeight > 0.0) {
-                TextureAtlasSprite textureAtlasSprite = materialSet.get(ModelBakery.FIRE_1);
+                TextureAtlasSprite textureAtlasSprite = sprites.get(ModelBakery.FIRE_1);
                 poseStack.pushPose();
                 poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
                 ScreenEffectRenderer.renderFire(poseStack, bufferSource, textureAtlasSprite);

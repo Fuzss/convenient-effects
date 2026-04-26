@@ -2,7 +2,7 @@ package fuzs.convenienteffects.handler;
 
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ServerConfig;
-import fuzs.puzzleslib.api.event.v1.data.MutableDouble;
+import fuzs.puzzleslib.common.api.event.v1.data.MutableDouble;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;

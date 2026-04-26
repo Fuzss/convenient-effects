@@ -2,7 +2,7 @@ package fuzs.convenienteffects.client.util;
 
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ClientConfig;
-import fuzs.puzzleslib.api.client.util.v1.ClientParticleHelper;
+import fuzs.puzzleslib.common.api.client.util.v1.ClientParticleHelper;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -2,7 +2,7 @@ package fuzs.convenienteffects.fabric.client;
 
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.client.ConvenientEffectsClient;
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import net.fabricmc.api.ClientModInitializer;
 
 public class ConvenientEffectsFabricClient implements ClientModInitializer {
