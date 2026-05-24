@@ -10,4 +10,6 @@ public class ServerConfig implements ConfigCore {
     public boolean noFireResistanceBurnTime = true;
     @Config(description = "Allow falling at normal speed while the slow falling effect is active when sneaking. The player will still not take any fall damage.")
     public boolean slowFallingQuickDescent = true;
+    @Config(description = "Additionally jump boost will allow entities to walk up blocks without jumping, including full blocks at a given effect strength.")
+    public boolean jumpBoostIncreasesStepHeight = true;
 }

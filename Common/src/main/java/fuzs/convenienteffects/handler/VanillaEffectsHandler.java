@@ -2,6 +2,7 @@ package fuzs.convenienteffects.handler;
 
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ServerConfig;
+import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.MutableDouble;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -12,17 +13,20 @@ import org.jetbrains.annotations.Nullable;
 
 public class VanillaEffectsHandler {
 
-    public static void onEndEntityTick(Entity entity) {
-        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).noFireResistanceBurnTime) return;
-        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-            entity.setRemainingFireTicks(Math.min(1, entity.getRemainingFireTicks()));
+    public static EventResult onLivingTick(LivingEntity livingEntity) {
+        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).noFireResistanceBurnTime) return EventResult.PASS;
+        if (livingEntity.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+            livingEntity.setRemainingFireTicks(Math.min(1, livingEntity.getRemainingFireTicks()));
         }
+
+        return EventResult.PASS;
     }
 
     public static void onLivingVisibility(LivingEntity entity, @Nullable Entity lookingEntity, MutableDouble visibilityPercentage) {
         if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) return;
         if (lookingEntity instanceof Mob mob && mob.hasEffect(MobEffects.BLINDNESS)) {
-            visibilityPercentage.accept(getVisibilityMultiplier(mob.getEffect(MobEffects.BLINDNESS).getAmplifier()) * 0.5F);
+            visibilityPercentage.accept(
+                    getVisibilityMultiplier(mob.getEffect(MobEffects.BLINDNESS).getAmplifier()) * 0.5F);
         }
     }
 

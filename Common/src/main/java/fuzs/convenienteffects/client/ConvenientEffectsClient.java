@@ -2,8 +2,8 @@ package fuzs.convenienteffects.client;
 
 import fuzs.convenienteffects.client.handler.VanillaEffectsClientHandler;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.event.v1.renderer.FogEvents;
-import fuzs.puzzleslib.api.client.event.v1.renderer.RenderBlockOverlayCallback;
+import fuzs.puzzleslib.api.client.event.v1.FogEvents;
+import fuzs.puzzleslib.api.client.event.v1.RenderBlockOverlayCallback;
 
 public class ConvenientEffectsClient implements ClientModConstructor {
 

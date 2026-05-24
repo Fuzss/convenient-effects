@@ -2,6 +2,7 @@ package fuzs.convenienteffects.client.util;
 
 import fuzs.convenienteffects.ConvenientEffects;
 import fuzs.convenienteffects.config.ClientConfig;
+import fuzs.convenienteffects.core.particles.ColorParticleOption;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -9,9 +10,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.entity.Entity;
 
 import java.util.List;
@@ -37,13 +36,24 @@ public class EffectParticleRenderHelper {
             int invisibleMultiplier = entity.isInvisible() ? 15 : 4;
             // reduce particle count to 20% as vanilla does for ambient effects
             int ambientMultiplier = 5;
-            if (entity.getRandom().nextInt(invisibleMultiplier * ambientMultiplier) == 0) {
-                ParticleOptions particleOptions = Util.getRandom(effectParticles, entity.getRandom());
-                Particle particle = addParticle(particleOptions, entity.getRandomX(0.5), entity.getRandomY(),
-                        entity.getRandomZ(0.5), 1.0, 1.0, 1.0
-                );
-                // set particle alpha to 15% as vanilla does for ambient effects
-                if (particle != null) particle.setAlpha(0.15F);
+            if (entity.level().getRandom().nextInt(invisibleMultiplier * ambientMultiplier) == 0) {
+                ParticleOptions particleOptions = Util.getRandom(effectParticles, entity.level().getRandom());
+                if (particleOptions instanceof ColorParticleOption colorParticleOption) {
+                    Particle particle = addParticle(colorParticleOption.getType(),
+                            entity.getRandomX(0.5),
+                            entity.getRandomY(),
+                            entity.getRandomZ(0.5),
+                            1.0,
+                            1.0,
+                            1.0);
+                    // set particle alpha to 15% as vanilla does for ambient effects
+                    if (particle != null) {
+                        particle.setColor(colorParticleOption.getRed(),
+                                colorParticleOption.getGreen(),
+                                colorParticleOption.getBlue());
+                        particle.setAlpha(0.15F);
+                    }
+                }
             }
         }
     }
@@ -69,18 +79,22 @@ public class EffectParticleRenderHelper {
     public static Particle addParticle(ParticleOptions options, boolean force, boolean decreased, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         Minecraft minecraft = Minecraft.getInstance();
         try {
-            return minecraft.levelRenderer.addParticleInternal(options, force, decreased, x, y, z, xSpeed, ySpeed,
-                    zSpeed
-            );
-        } catch (Throwable var19) {
-            CrashReport crashReport = CrashReport.forThrowable(var19, "Exception while adding particle");
+            return minecraft.levelRenderer.addParticleInternal(options,
+                    force,
+                    decreased,
+                    x,
+                    y,
+                    z,
+                    xSpeed,
+                    ySpeed,
+                    zSpeed);
+        } catch (Throwable throwable) {
+            CrashReport crashReport = CrashReport.forThrowable(throwable, "Exception while adding particle");
             CrashReportCategory crashReportCategory = crashReport.addCategory("Particle being added");
             crashReportCategory.setDetail("ID", BuiltInRegistries.PARTICLE_TYPE.getKey(options.getType()));
-            crashReportCategory.setDetail("Parameters", () -> ParticleTypes.CODEC.encodeStart(
-                    minecraft.level.registryAccess().createSerializationContext(NbtOps.INSTANCE), options).toString());
+            crashReportCategory.setDetail("Parameters", options.writeToString());
             crashReportCategory.setDetail("Position",
-                    () -> CrashReportCategory.formatLocation(minecraft.level, x, y, z)
-            );
+                    () -> CrashReportCategory.formatLocation(minecraft.level, x, y, z));
             throw new ReportedException(crashReport);
         }
     }

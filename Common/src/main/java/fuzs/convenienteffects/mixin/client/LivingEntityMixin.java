@@ -1,12 +1,14 @@
 package fuzs.convenienteffects.mixin.client;
 
 import fuzs.convenienteffects.client.util.EffectParticleRenderHelper;
-import net.minecraft.core.particles.ParticleOptions;
+import fuzs.convenienteffects.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,30 +16,34 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import java.util.Collections;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin extends Entity {
     @Shadow
     @Final
-    private static EntityDataAccessor<List<ParticleOptions>> DATA_EFFECT_PARTICLES;
+    private static EntityDataAccessor<Integer> DATA_EFFECT_COLOR_ID;
+    @Shadow
+    @Final
+    private static EntityDataAccessor<Boolean> DATA_EFFECT_AMBIENCE_ID;
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
 
-    @Inject(
-            method = "tickEffects", at = @At(
-            value = "FIELD",
-            target = "Lnet/minecraft/world/entity/LivingEntity;DATA_EFFECT_PARTICLES:Lnet/minecraft/network/syncher/EntityDataAccessor;"
-    ), cancellable = true
-    )
+    @Inject(method = "tickEffects",
+            at = @At(value = "FIELD",
+                     target = "Lnet/minecraft/world/entity/LivingEntity;DATA_EFFECT_COLOR_ID:Lnet/minecraft/network/syncher/EntityDataAccessor;",
+                     opcode = Opcodes.GETSTATIC),
+            cancellable = true)
     protected void tickEffects(CallbackInfo callback) {
+        int color = this.entityData.get(DATA_EFFECT_COLOR_ID);
+        boolean isAmbient = this.entityData.get(DATA_EFFECT_AMBIENCE_ID);
         // this mixin is only added on the client,
         // but still add a check to be sure since we access client-only classes directly in the subsequent methods
-        if (this.level().isClientSide && EffectParticleRenderHelper.addEffectParticles(this,
-                this.entityData.get(DATA_EFFECT_PARTICLES)
-        )) {
+        if (this.level().isClientSide() && color != 0 && EffectParticleRenderHelper.addEffectParticles(this,
+                Collections.singletonList(new ColorParticleOption(
+                        isAmbient ? ParticleTypes.AMBIENT_ENTITY_EFFECT : ParticleTypes.ENTITY_EFFECT, color)))) {
             callback.cancel();
         }
     }
