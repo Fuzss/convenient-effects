@@ -11,8 +11,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -76,7 +76,7 @@ public class VanillaEffectsClientHandler {
         }
     }
 
-    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, BlockState blockState, SpriteGetter sprites) {
+    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, BlockState blockState, SpriteGetter sprites) {
         double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
         if (flameOverlayHeight >= 1.0) {
             return EventResult.PASS;
@@ -87,7 +87,7 @@ public class VanillaEffectsClientHandler {
                 TextureAtlasSprite textureAtlasSprite = sprites.get(ModelBakery.FIRE_1);
                 poseStack.pushPose();
                 poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
-                ScreenEffectRenderer.renderFire(poseStack, bufferSource, textureAtlasSprite);
+                ScreenEffectRenderer.submitFire(poseStack, submitNodeCollector, textureAtlasSprite);
                 poseStack.popPose();
             }
 

@@ -15,16 +15,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin {
 
-    @Inject(method = "getNightVisionScale", at = @At("HEAD"), cancellable = true)
-    private static void getNightVisionScale(LivingEntity livingEntity, float partialTick, CallbackInfoReturnable<Float> callback) {
+    @Inject(method = "nightVisionScale", at = @At("HEAD"), cancellable = true)
+    private static void nightVisionScale(LivingEntity camera, float a, CallbackInfoReturnable<Float> callback) {
         if (!ConvenientEffects.CONFIG.get(ClientConfig.class).noNightVisionFlashing) {
             return;
         }
 
-        MobEffectInstance mobEffect = livingEntity.getEffect(MobEffects.NIGHT_VISION);
+        MobEffectInstance mobEffect = camera.getEffect(MobEffects.NIGHT_VISION);
         if (mobEffect != null && !mobEffect.isInfiniteDuration()) {
             float fadeTime = ConvenientEffects.CONFIG.get(ClientConfig.class).effectFadeTime * 20.0F;
-            float nightVisionScale = Mth.clamp((mobEffect.getDuration() - partialTick) / fadeTime, 0.0F, 1.0F);
+            float nightVisionScale = Mth.clamp((mobEffect.getDuration() - a) / fadeTime, 0.0F, 1.0F);
             callback.setReturnValue(nightVisionScale);
         }
     }
