@@ -6,11 +6,17 @@
     "26.1.x": "maintained",
     "26.2.x": "primary"
   },
-  "properties": {
-    "distributions.curseforge.id": "1259240",
-    "distributions.curseforge.slug": "convenient-effects",
-    "distributions.github.slug": "convenient-effects",
-    "distributions.modrinth.id": "BEVhblTh",
-    "distributions.modrinth.slug": "convenient-effects"
+  "distributions": {
+    "curseforge": {
+      "id": "1259240",
+      "slug": "convenient-effects"
+    },
+    "github": {
+      "slug": "convenient-effects"
+    },
+    "modrinth": {
+      "id": "BEVhblTh",
+      "slug": "convenient-effects"
+    }
   }
 }
