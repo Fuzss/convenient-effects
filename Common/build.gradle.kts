@@ -9,6 +9,6 @@ dependencies {
 multiloader {
     mixins {
         mixin("LivingEntityMixin")
-        clientMixin("GameRendererMixin", "LivingEntityClientMixin")
+        clientMixin("GameRendererMixin", "LivingEntityClientMixin", "ScreenEffectRendererMixin")
     }
 }

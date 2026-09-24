@@ -1,29 +1,20 @@
 package fuzs.convenienteffects.common.client.handler;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import fuzs.convenienteffects.common.ConvenientEffects;
 import fuzs.convenienteffects.common.config.ClientConfig;
 import fuzs.convenienteffects.common.config.ServerConfig;
 import fuzs.convenienteffects.common.handler.VanillaEffectsHandler;
-import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.ScreenEffectRenderer;
-import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FogType;
 import org.jspecify.annotations.Nullable;
 
@@ -73,27 +64,6 @@ public class VanillaEffectsClientHandler {
             float renderDistanceInBlocks = renderDistanceInChunks * 16;
             fogData.environmentalStart = Mth.lerp(fogDistance, 0.25F, -4.0F);
             fogData.environmentalEnd = Mth.lerp(fogDistance, 1.0F, renderDistanceInBlocks * 0.25F);
-        }
-    }
-
-    public static EventResult onRenderBlockOverlay(LocalPlayer player, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, BlockState blockState, SpriteGetter sprites) {
-        double flameOverlayHeight = ConvenientEffects.CONFIG.get(ClientConfig.class).flameOverlayHeight;
-        if (flameOverlayHeight >= 1.0) {
-            return EventResult.PASS;
-        }
-
-        if (blockState == Blocks.FIRE.defaultBlockState()) {
-            if (flameOverlayHeight > 0.0) {
-                TextureAtlasSprite textureAtlasSprite = sprites.get(ModelBakery.FIRE_1);
-                poseStack.pushPose();
-                poseStack.translate(0.0, -0.5 + flameOverlayHeight / 2.0, 0.0);
-                ScreenEffectRenderer.submitFire(poseStack, submitNodeCollector, textureAtlasSprite);
-                poseStack.popPose();
-            }
-
-            return EventResult.INTERRUPT;
-        } else {
-            return EventResult.PASS;
         }
     }
 

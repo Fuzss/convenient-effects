@@ -2,7 +2,6 @@ package fuzs.convenienteffects.common.handler;
 
 import fuzs.convenienteffects.common.ConvenientEffects;
 import fuzs.convenienteffects.common.config.ServerConfig;
-import fuzs.puzzleslib.common.api.event.v1.data.MutableDouble;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -19,11 +18,12 @@ public class VanillaEffectsHandler {
         }
     }
 
-    public static void onLivingVisibility(LivingEntity entity, @Nullable Entity lookingEntity, MutableDouble visibilityPercentage) {
-        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) return;
+    public static double getVisibilityPercent(@Nullable Entity lookingEntity, double visibilityPercent) {
+        if (!ConvenientEffects.CONFIG.get(ServerConfig.class).strongerBlindness) return visibilityPercent;
         if (lookingEntity instanceof Mob mob && mob.hasEffect(MobEffects.BLINDNESS)) {
-            visibilityPercentage.accept(getVisibilityMultiplier(mob.getEffect(MobEffects.BLINDNESS).getAmplifier()) * 0.5F);
+            return getVisibilityMultiplier(mob.getEffect(MobEffects.BLINDNESS).getAmplifier()) * 0.5F;
         }
+        return visibilityPercent;
     }
 
     public static float getVisibilityMultiplier(int amplifier) {
