@@ -6,8 +6,9 @@ import fuzs.convenienteffects.common.config.ServerConfig;
 import fuzs.convenienteffects.common.handler.VanillaEffectsHandler;
 import fuzs.puzzleslib.common.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import net.minecraft.resources.Identifier;
 import fuzs.puzzleslib.common.api.event.v1.entity.EntityTickEvents;
+import fuzs.puzzleslib.common.api.event.v1.entity.living.CalculateLivingVisibilityCallback;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,6 +32,7 @@ public class ConvenientEffects implements ModConstructor {
 
     private static void registerEventHandlers() {
         EntityTickEvents.END.register(VanillaEffectsHandler::onEndEntityTick);
+        CalculateLivingVisibilityCallback.EVENT.register(VanillaEffectsHandler::onCalculateLivingVisibility);
     }
 
     @Override
